@@ -1,0 +1,17 @@
+/* Simulasi aturan warna tampilan dashboard */
+body {
+    background-color: #f5f7fb;
+    color: #1f2937;
+}
+
+.dashboard-title {
+    color: #2563eb;
+}
+
+.loading-text {
+    color: #d97706;
+}
+
+.item-row {
+    color: #047857;
+}
