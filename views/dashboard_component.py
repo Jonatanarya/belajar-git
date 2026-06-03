@@ -15,9 +15,12 @@ def fetch_data_from_api(api_function):
     try:
         response = api_function()
         if response["status"] == "success":
+            print("[Success] Data berhasil diambil dari API")
             return response["data"]
         else:
-            raise Exception("API Return Error")
+            error_code = response.get("code", "UNKNOWN")
+            error_msg = response.get("message", "Terjadi kesalahan tidak diketahui")
+            raise Exception(f"[{error_code}] {error_msg}")
     except Exception as e:
         print(f"[Error] Gagal Integrasi: {e}")
         return None
