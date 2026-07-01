@@ -1,0 +1,36 @@
+services:
+  web-app:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - APP_USER=${USER_NAME}
+      - DATABASE_URL=postgresql://postgres:rahasia@db-server:5432/mvc_db
+    volumes:
+      - ./logs:/app/logs # Bind Mount: memetakan folder lokal ke kontainer
+      - shared-storage:/app/data # Named Volume: untuk shared storage
+    networks:
+      - mvc-network
+    depends_on:
+      - db-server
+    command: tail -f /dev/null
+
+  db-server:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_PASSWORD=rahasia
+      - POSTGRES_DB=mvc_db
+    volumes:
+      - db-data:/var/lib/postgresql/data # Named Volume: untuk data DB
+    networks:
+      - mvc-network
+    ports:
+      - "5432:5432"
+
+volumes:
+  db-data: # Definisi named volume global untuk database
+  shared-storage: # Definisi named volume global untuk shared storage
+
+networks:
+  mvc-network:
+    driver: bridge
